@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package api.iam.service.iamv1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/resources;iamv1";
+
+import "third_party/validate/validate.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+
+message APICreateGroupRequest {
+  string name = 1;
+  string description = 2 ;
+  int64 uid = 3;
+}
+
+message APICreateGroupReply {
+  string gourpId = 1;
+}
+
+message APIGetGroupRequest {
+  string groupId = 1;
+}
+
+message APIDeleteGroupRequest {
+  string groupId = 1;
+}
+
+message APIDeleteGroupReply {
+}
+
+message APIGroupMember {
+  string memberId = 1;
+  //0 user 1 serviceaccount 2 group
+  int32 memberType = 2;
+}
+
+message APIAddMemberToGroupRequest {
+  string groupId = 1;
+  repeated APIGroupMember members = 2;
+}
+
+message APIAddMemberToGroupReply {
+}
+
+message APIRemoveMemberFromGroupRequest {
+  string groupId = 1;
+  repeated string members = 2;
+}
+
+message APIRemoveMemberFromGroupReply {
+}
+
+
+message APICreateGroupListData {
+  string name = 1;
+  string description = 2 ;
+}
+
+message APICreateGroupListRequest {
+  repeated APICreateGroupListData data = 1;
+}
+
+message APICreateGroupListReply {
+  repeated string groupId = 1;
+}
+
+message APIDeleteGroupListRequest {
+  repeated string groupId = 1;
+}
+
+message APIDeleteGroupListReply {
+}

@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package api.iam.service.iamservicev1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/services;iamservicev1";
+
+import "api/common/v3/services/common.services.proto";
+import "api/iam-service/v1/resources/iam.iam.resource.v1.proto";
+import "api/iam-service/v1/resources/iam.common.resource.v1.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/empty.proto";
+
+
+service IAMService {
+
+  option (eden.common.service_name) = "iam-service/v1";
+  //create a new custom role
+  rpc CreateRole(iamv1.CreateRoleRequest) returns (iamv1.Role){}
+  rpc GetRole(iamv1.GetRoleRequest) returns (iamv1.Role){}
+  rpc DeleteRole(iamv1.DeleteRoleRequest) returns (google.protobuf.Empty){}
+  rpc UpdateRole(iamv1.UpdateRoleRequest) returns (iamv1.Role){}
+  rpc ListRoles(iamv1.ListRolesRequest) returns (iamv1.ListRolesResponse){}
+
+  //service account
+  rpc CreateServiceAccount(iamv1.CreateServiceAccountRequest) returns (iamv1.ServiceAccount){}
+  rpc GetServiceAccount(iamv1.GetServiceAccountRequest) returns (iamv1.ServiceAccount){}
+  rpc DeleteServiceAccount(iamv1.DeleteServiceAccountRequest) returns (google.protobuf.Empty){}
+  rpc ListServiceAccounts(iamv1.ListServiceAccountsRequest) returns (iamv1.ListServiceAccountsResponse){}
+  rpc EnableServiceAccount(iamv1.EnableServiceAccountRequest) returns (google.protobuf.Empty){}
+  rpc DisableServiceAccount(iamv1.DisableServiceAccountRequest) returns (google.protobuf.Empty){}
+
+  //policy
+  rpc CreatePolicy(iamv1.CreatePolicyRequest) returns (iamv1.CreatePolicyResponse){}
+  rpc GetPolicy(iamv1.GetPolicyRequest) returns (iamv1.GetPolicyResponse){}
+  rpc DeletePolicy(iamv1.DeletePolicyRequest) returns (iamv1.DeletePolicyResponse){}
+  rpc UpdatePolicy(iamv1.UpdatePolicyRequest) returns (iamv1.UpdatePolicyResponse){}
+  rpc ListPolicies(iamv1.ListPoliciesRequest) returns (iamv1.ListPoliciesResponse){}
+  rpc BindingPolicy(iamv1.BindingPolicyRequest) returns (iamv1.BindingPolicyResponse){}
+  rpc UnBindingPolicy(iamv1.UnBindingPolicyRequest) returns (iamv1.UnBindingPolicyResponse){}
+
+  rpc GetIamPolicy(iamv1.GetIamPolicyRequest) returns (iamv1.Policy){}
+  rpc SetIamPolicy(iamv1.SetIamPolicyRequest) returns (iamv1.Policy){}
+  rpc TestIamPermissions(iamv1.TestIamPermissionsRequest) returns (iamv1.TestIamPermissionsResponse){}
+
+  //member
+  rpc CreateUser(iamv1.CreateUserRequest) returns (iamv1.User){}
+  rpc GetUser(iamv1.GetUserRequest) returns (iamv1.User){}
+  rpc DeleteUser(iamv1.DeleteUserRequest) returns (google.protobuf.Empty){}
+  rpc ListUsers(iamv1.ListUsersRequest) returns (iamv1.ListUsersResponse){}
+  rpc CreateGroup(iamv1.CreateGroupRequest) returns (iamv1.Group){}
+  rpc GetGroup(iamv1.GetGroupRequest) returns (iamv1.Group){}
+  rpc DeleteGroup(iamv1.DeleteGroupRequest) returns (google.protobuf.Empty){}
+  rpc ListGroups(iamv1.ListGroupsRequest) returns (iamv1.ListGroupsResponse){}
+
+  rpc AddMemberToGroup(iamv1.AddMemberToGroupRequest) returns (iamv1.AddMemberToGroupResponse){}
+  rpc RemoveMemberFromGroup(iamv1.RemoveMemberFromGroupRequest) returns (iamv1.RemoveMemberFromGroupResponse){}
+
+  rpc ListServiceAccountKeys(iamv1.ListServiceAccountKeysRequest) returns (iamv1.ListServiceAccountKeysResponse){}
+  rpc CreateServiceAccountKey(iamv1.CreateServiceAccountKeyRequest) returns (iamv1.ServiceAccountKey){}
+  rpc DeleteServiceAccountKey(iamv1.DeleteServiceAccountKeyRequest) returns (google.protobuf.Empty){}
+  rpc DisableServiceAccountKey(iamv1.DisableServiceAccountKeyRequest) returns (google.protobuf.Empty){}
+  rpc EnableServiceAccountKey(iamv1.EnableServiceAccountKeyRequest) returns (google.protobuf.Empty){}
+  rpc GetServiceAccountKey(iamv1.GetServiceAccountKeyRequest) returns (iamv1.ServiceAccountKey){}
+
+  //获取资源
+  rpc GetResource(iamv1.GetResourceRequest) returns (iamv1.Resource){}
+
+  //创建资源
+  rpc CreateResource(iamv1.CreateResourceRequest) returns (iamv1.Resource){}
+
+  //资源列表
+  rpc ListResources(iamv1.ListResourcesRequest) returns (iamv1.ListResourcesResponse){}
+
+  //rpc LintPolicy(LintPolicyRequest) returns (LintPolicyResponse){}
+  //rpc PatchServiceAccount(PatchServiceAccountRequest) returns (ServiceAccount){}
+  //rpc QueryAuditableServices(QueryAuditableServicesRequest) returns (QueryAuditableServicesResponse){}
+  //rpc QueryGrantableRoles(QueryGrantableRolesRequest) returns (QueryGrantableRolesResponse){}
+  //rpc QueryTestablePermissions(QueryTestablePermissionsRequest) returns (QueryTestablePermissionsResponse){}
+  //rpc UndeleteServiceAccount(UndeleteServiceAccountRequest) returns (UndeleteServiceAccountResponse){}
+  //rpc UpdateServiceAccount(ServiceAccount) returns (ServiceAccount){}
+  //rpc UploadServiceAccountKey(UploadServiceAccountKeyRequest) returns (ServiceAccountKey){}
+}
+

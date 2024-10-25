@@ -1,0 +1,328 @@
+syntax = "proto3";
+
+package api.iam.service.iamv1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/resources;iamv1";
+
+import "third_party/validate/validate.proto";
+import "api/iam-service/v1/resources/iam.common.resource.v1.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+
+message CreateRoleRequest
+{
+  //角色名
+  string name = 1;
+  //标题
+  string title = 2;
+  //描述
+  string description = 3;
+  //权限集合
+  repeated string permissions = 4;
+}
+
+message GetRoleRequest
+{
+  string id = 1;
+}
+
+message DeleteRoleRequest
+{
+  string id = 1;
+}
+
+message UpdateRoleRequest
+{
+  //角色id
+  string id = 1;
+  string title = 2;
+  //描述
+  string description = 3;
+  //权限集合
+  repeated string permissions = 4;
+}
+
+message ListRolesRequest
+{
+}
+
+message ListRolesResponse
+{
+  repeated Role roles = 1;
+}
+
+message CreateServiceAccountRequest
+{
+  //服务账号名称
+  string name = 1;
+  //描述
+  string description = 2;
+  //是否禁止
+  bool disabled = 3;
+}
+
+message GetServiceAccountRequest
+{
+  string id = 1; //
+}
+
+message DeleteServiceAccountRequest
+{
+  string id = 1; //
+}
+
+
+message ListServiceAccountsRequest
+{
+}
+
+message ListServiceAccountsResponse
+{
+  repeated ServiceAccount accounts = 1;
+}
+
+message EnableServiceAccountRequest
+{
+  string id = 1; //
+}
+
+message DisableServiceAccountRequest
+{
+  string id = 1; //
+}
+
+//
+message CreatePolicyRequest
+{
+  Policy policy = 1;
+}
+
+message CreatePolicyResponse
+{
+  int32 result = 1;
+}
+
+message GetPolicyRequest
+{
+  string id = 1;
+}
+
+message GetPolicyResponse
+{
+  Policy policy = 1;
+}
+
+message DeletePolicyRequest
+{
+  string id = 1;
+}
+
+message DeletePolicyResponse
+{
+  int32 result = 1;
+}
+
+message UpdatePolicyRequest
+{
+  Policy policy = 1;
+}
+
+message UpdatePolicyResponse
+{
+  int32 result = 1;
+}
+
+message ListPoliciesRequest
+{
+}
+
+message ListPoliciesResponse
+{
+  repeated Policy policies = 1;
+}
+
+message BindingPolicyRequest
+{
+  string resource = 1;
+  repeated string policyIds = 2;
+}
+
+message BindingPolicyResponse
+{
+  int32 result = 1;
+}
+
+message UnBindingPolicyRequest
+{
+  string resource = 1;
+  repeated string policyIds = 2;
+}
+
+message UnBindingPolicyResponse
+{
+  int32 result = 1;
+}
+
+message CreateUserRequest
+{
+  User user = 1;
+}
+
+message GetUserRequest
+{
+  string id = 1;
+}
+
+message DeleteUserRequest
+{
+  string id = 1;
+}
+
+message ListUsersRequest
+{
+}
+
+message ListUsersResponse
+{
+  repeated User users = 1;
+}
+
+message CreateGroupRequest
+{
+  string name = 1;
+  string description = 2;
+}
+
+message GetGroupRequest
+{
+  string groupId = 1;
+}
+
+message DeleteGroupRequest
+{
+  string groupId = 1;
+}
+
+message ListGroupsRequest
+{
+}
+
+message ListGroupsResponse
+{
+  repeated Group groups = 1;
+}
+
+message AddMemberToGroupRequest
+{
+  string groupId = 1;
+  repeated string members = 2;
+}
+
+message AddMemberToGroupResponse
+{
+}
+
+message RemoveMemberFromGroupRequest
+{
+  string groupId = 1;
+  repeated string members = 2;
+}
+
+message RemoveMemberFromGroupResponse
+{
+}
+
+message GetIamPolicyRequest
+{
+  //资源
+  string resource = 1;
+}
+
+message SetIamPolicyRequest
+{
+  //资源
+  string resource = 1;
+  //政策
+  Policy policy = 2;
+}
+
+message TestIamPermissionsRequest
+{
+  //资源
+  string resource = 1;
+  //权限
+  string permission = 2;
+  //账号
+  string account = 3;
+}
+
+message TestIamPermissionsResponse
+{
+  bool isAllowed = 1;
+}
+
+message ListServiceAccountKeysRequest
+{
+  string serviceAccountId = 1;
+}
+
+message ListServiceAccountKeysResponse
+{
+  repeated ServiceAccountKey keys = 1;
+}
+
+message CreateServiceAccountKeyRequest
+{
+  string serviceAccountId = 1;
+}
+
+message DeleteServiceAccountKeyRequest
+{
+  string ak = 1;
+}
+
+message DisableServiceAccountKeyRequest
+{
+  string ak = 1;
+}
+
+message EnableServiceAccountKeyRequest
+{
+  string ak = 1;
+}
+
+message GetServiceAccountKeyRequest
+{
+  string ak = 1;
+}
+
+message GetResourceRequest
+{
+  string resourceId = 2;
+}
+
+
+message CreateResourceRequest
+{
+  //显示的名称
+  string displayName = 1;
+  //父节点id
+  string parentId = 2;
+  //资源类型（0 组织，1 文件夹，2 项目 3 service）
+  int32 resourceType = 3; //
+}
+
+message ListResourcesRequest
+{
+}
+
+message ListResourcesResponse
+{
+  repeated Resource resources = 1;
+}

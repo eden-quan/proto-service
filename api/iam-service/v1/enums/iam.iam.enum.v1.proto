@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package api.iam.service.iamenumv1;
+
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/enums;iamenumv1";
+
+// IamServiceInitEnum enum
+message IamInitEnum {
+  // PingInit enum
+  enum IamInit {
+    // UNSPECIFIED 未指定
+    UNSPECIFIED = 0;
+  }
+}

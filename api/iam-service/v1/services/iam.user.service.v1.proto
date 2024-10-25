@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package api.iam.service.iamservicev1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/services;iamservicev1";
+
+import "api/common/v3/services/common.services.proto";
+import "api/iam-service/v1/resources/iam.user.resource.v1.proto";
+import "google/protobuf/descriptor.proto";
+
+
+service IAMUserService {
+
+  option (eden.common.service_name) = "iam-service/v1";
+
+  rpc UserLogin(iamv1.UserUserLoginRequest) returns(iamv1.UserUser){}
+  rpc UserLogout(iamv1.UserUserLogoutRequest) returns(iamv1.UserUserLogoutReply){}
+  rpc UserRegister(iamv1.UserUserRegisterRequest) returns(iamv1.UserUser){}
+  rpc CheckToken(iamv1.UserCheckTokenRequest) returns(iamv1.UserCheckTokenResponse){}
+  rpc CheckUser(iamv1.UserCheckUserRequest) returns(iamv1.UserCheckUserResponse){}
+  rpc RefreshToken(iamv1.UserRefreshTokenRequest) returns(iamv1.UserRefreshTokenResponse){}
+  rpc UpdateCompanyIdAndLabel(iamv1.UserUpdateCompanyIdAndLabelRequest) returns(iamv1.UserUpdateCompanyIdAndLabelResponse){}
+
+  rpc DeleteUser(iamv1.UserDeleteUserRequest) returns(iamv1.UserDeleteUserResponse){}
+
+  rpc CheckLastLogin(iamv1.UserCheckLastLoginRequest) returns(iamv1.UserCheckLastLoginResponse){}
+}
+

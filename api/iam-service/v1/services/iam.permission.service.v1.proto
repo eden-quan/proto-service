@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package api.iam.service.iamservicev1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/services;iamservicev1";
+
+import "api/common/v3/services/common.services.proto";
+import "api/iam-service/v1/resources/iam.permission.resource.v1.proto";
+import "google/protobuf/descriptor.proto";
+
+service IAMPermissionService {
+
+  option (eden.common.service_name) = "iam-service/v1";
+
+  //set service permission
+  rpc CreateService(iamv1.CreateServiceRequest) returns (iamv1.CreateServiceResponse){}
+  rpc CreateServicePermissions(iamv1.CreateServicePermissionsRequest) returns (iamv1.CreateServicePermissionsResponse){}
+  rpc UpdateServicePermissions(iamv1.UpdateServicePermissionsRequest) returns (iamv1.UpdateServicePermissionsResponse){}
+  rpc ListServices(iamv1.ListServicesRequest) returns (iamv1.ListServicesResponse){}
+  rpc UpdateService(iamv1.UpdateServiceRequest) returns (iamv1.UpdateServiceResponse){}
+  rpc ListPermissions(iamv1.ListPermissionsRequest) returns (iamv1.ListPermissionsResponse){}
+  rpc UpdatePermission(iamv1.UpdatePermissionRequest) returns (iamv1.UpdatePermissionResponse){}
+  rpc CreatePermission(iamv1.CreatePermissionRequest) returns (iamv1.CreatePermissionResponse){}
+  rpc GetPermission(iamv1.GetPermissionRequest) returns (iamv1.GetPermissionResponse){}
+  rpc DeletePermission(iamv1.DeletePermissionRequest) returns (iamv1.DeletePermissionResponse){}
+}

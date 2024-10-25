@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package api.iam.service.iamservicev1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/services;iamservicev1";
+
+import "api/common/v3/services/common.services.proto";
+import "api/iam-service/v1/resources/iam.api.resource.v1.proto";
+import "google/protobuf/descriptor.proto";
+
+
+service IAMApiService {
+
+  option (eden.common.service_name) = "iam-service/v1";
+
+  rpc CreateGroup(iamv1.APICreateGroupRequest) returns (iamv1.APICreateGroupReply){}
+  rpc DeleteGroup(iamv1.APIDeleteGroupRequest) returns (iamv1.APIDeleteGroupReply){}
+  rpc AddMemberToGroup(iamv1.APIAddMemberToGroupRequest) returns (iamv1.APIAddMemberToGroupReply){}
+  rpc RemoveMemberFromGroup(iamv1.APIRemoveMemberFromGroupRequest) returns (iamv1.APIRemoveMemberFromGroupReply){}
+
+  rpc CreateGroupList(iamv1.APICreateGroupListRequest) returns (iamv1.APICreateGroupListReply){}
+  rpc DeleteGroupList(iamv1.APIDeleteGroupListRequest) returns (iamv1.APIDeleteGroupListReply){}
+}

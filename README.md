@@ -1,93 +1,137 @@
-# proto-service
+# ProtoService
+
+ProtoService 管理所有微服务的 Protocol Buffer 定义文件，通过 EdenCLI 为他们生成统一的客户端
+
+## 安装Golang
+
+> Version 1.21.3
+
+下载地址 [下载Golang](https://go.dev/dl/)
+
+* windows安装 https://dl.google.com/go/go1.21.3.windows-amd64.msi
+* mac-intel安装 https://dl.google.com/go/go1.21.3.darwin-amd64.pkg
+* mac-Mx安装 https://dl.google.com/go/go1.21.3.darwin-arm64.pkg
+* linux安装 https://dl.google.com/go/go1.21.3.linux-amd64.tar.gz
+
+## 安装依赖工具
+
+Eden 相关的项目都将使用 [eden-cli](https://gitlab.lainuoniao.cn/eden-quan/eden-cli) 进行管理，该工具将为后端的项目提供统一的目录结构管理 / 服务维护 / 代码生成 / 运行程序 等基础能力.
+鉴于各种网络 / Git 配置 / Go 私有仓库等原因，在运行任何项目前，请先完成如下配置
+
+```shell
+git config --global url."ssh://git@some_repo/".insteadOf "https://some_gitlab/"
+go env -w GOPRIVATE=some_gitlab
+```
+
+如果手头上已有项目，并且尚未安装 `eden-cli` ，可通过在项目中执行 `make init` 进行依赖项的安装
 
 
+## `eden-cli` 简单示例
 
-## Getting started
+整体项目的结构为: **项目 --> 服务 --> 模块**
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+### 创建新项目
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+执行如下命令后，工具会一步一步引导操作者在指定的目录中创建新项目, 在创建新项目的过程中，同时会为使用者创建默认的微服务及模块，
+具体可参照项目的目录结构，具体的目录结构说明可参照 `eden-cli` 项目
 
-## Add your files
+```shell
+eden-cli project new
+```
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### 添加新模块/服务
+在 创建/拉取 项目后，可通过下列命令添加新的业务模块/微服务, 在创建的过程中会提示输入微服务名，当微服务名已存在时可用于添加新的模块，
+当指定的微服务不存在时，则会同时创建微服务及新的模块
+
+```shell
+eden-cli service new     // 创建新服务
+eden-cli module new      // 创建新模块
+```
+
+### 生成代码
+微服务中的所有接口及消息类型，都会通过 `Protocol buffer` 进行定义，因此 `eden-cli` 工具同时也提供了快捷生成代码的命令，
+
+```shell
+eden-cli gen [service-name]
+```
+
+其中 `service-name` 为需要生成代码的微服务名，该名称支持模糊匹配，
+意味着在需要生成 `some-service` 的代码时，可通过 `eden-cli gen some` 来触发生成功能。
+当 `service-name` 为空时，会列出当前项目中包含的微服务列表，由用户挑选需要生成的服务。
+
+### 运行项目
+
+`eden-cli` 提供了 `run` 命令来运行指定的微服务，该命令支持与 `gen` 相同的模糊匹配逻辑。
+
+```shell
+eden-cli run [service-name]
+```
+
+
+## 项目结构
+
+以下为本项目的整体结构说明
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.lainuoniao.cn/eden-quan/proto-service.git
-git branch -M main
-git push -uf origin main
+├── api
+│  ├── common
+│  │  ├── v1                   // 当前已基本不使用，为兼容旧功能保留，勿更改
+│  │  └── v3                   // 通用定义
+│  │     ├── enums
+│  │     ├── resources         // 该目录包含通用的返回结果，通过 flatten 的方式为所有接口提供统一的返回结果类型
+│  │     └── services          // 该目录提供了微服务名配置能力，通过该能力为微服务提供服务发现 / 自动加载注册中心配置等能力
+│  └── proto-service        // 由工具创建的微服务，所有的接口 / 数据 / 错误 / 枚举信息都在该目录下对应的子目录进行定义
+│     └── v1                   // 版本信息为创建微服务时指定
+│        ├── enums             // 用于定义枚举类型的目录
+│        ├── errors            // 用于定义该微服务的错误信息
+│        ├── resources         // 用于定义该微服务的消息类型
+│        └── services          // 用于定义该微服务的接口
+├── app
+│  └── proto-service            // 这里为微服务用于实现实际业务逻辑的位置
+│     ├── cmd                  // 该目录包含了微服务的入口 / 启动函数，!!!通常情况不修改该目录
+│     │  ├── export
+│     │  └── proto-service 
+│     ├── configs              // 该目录包含启动微服务所需的配置，一般情况下一个微服务只需包含配置中心的地址
+│     │  └── config_app.yaml
+│     ├── internal             // 微服务的业务逻辑实现地址
+│     │  ├── conf              // 由工具生成的配置入口，一般情况下无需更改
+│     │  ├── domain            // 每个模块各个功能领域的实现, 具体的业务逻辑在此处实现
+│     │  ├── impl              // 实现 proto 的接口定义，一般负责注册接口到依赖框架及做参数校验
+│     │  └── inject            // 依赖注入入口，需要注入新的组件时会引用该模块获取 Injector 进行注入
+│     └── README.md
+├── dep.dot                    // 由框架的依赖注入模块生成的模块依赖图
+├── devops                     // 发布 / 构建脚本，一般无需关注该目录
+│  ├── docker
+│  └── makefile 
+├── go.mod
+├── go.sum
+├── Makefile
+├── README.md
+└── third_party                // 第三方的 Protocol 扩展，一般无需关注该目录
+   ├── errors
+   ├── google
+   └── ...
 ```
 
-## Integrate with your tools
+## 依赖库
 
-- [ ] [Set up project integrations](https://gitlab.lainuoniao.cn/eden-quan/proto-service/-/settings/integrations)
+由 Eden CLI 创建的项目主要依赖下列公共库，虽然日常开发中无需使用到这些内容，但可以通过了解下列公共库的实现来理解整个项目的运行机制
 
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+- [Go Biz Kit](https://gitlab.lainuoniao.cn/eden-quan/go-biz-kit)
+  - 提供各种中间件的支持，如 MySQL、RabbitMQ、Tracing、Logging 等
+  - 提供了通用的错误处理机制
+  - 提供基于依赖注入的运行时支持
+  - Web 及 Grpc 实现暂时通过 Kratos 实现 _(但开发人员不应对此做任何假设，因为后续可能会随时进行替换)_
+- [Go Kratos Pkg](https://gitlab.lainuoniao.cn/eden-quan/go-kratos-pkg)
+  - 封装历史包 - 后续替换
+- Tools
+  - [protoc-gen-go-http-fx](https://gitlab.lainuoniao.cn/eden-quan/protoc-gen-go-http-fx)
+    - 扩展 http 插件，提供更通用的服务注册 / Flatten 等能力
+  - [protoc-gen-go-grpc-fx](https://gitlab.lainuoniao.cn/eden-quan/protoc-gen-go-grpc-fx)
+    - 扩展 grpc 插件，提供更通用的服务注册 / Flatten 等能力
+  - [protoc-gen-go-errors-fx](https://gitlab.lainuoniao.cn/eden-quan/protoc-gen-go-errors-fx)
+    - 扩展 errors 插件，提供结合 `BusinessKit` 提供通用的错误处理能力
+  - [protoc-gen-openapi-fx](https://gitlab.lainuoniao.cn/eden-quan/protoc-gen-openapi-fx) / [grpc-gateway](https://gitlab.lainuoniao.cn/eden-quan/grpc-gateway)
+    - 扩展 openapi 插件，提供与其他组件匹配的文档生成能力
+  - [protobuf](https://gitlab.lainuoniao.cn/eden-quan/protobuf)
+    - 对 proto-go 插件进行扩展, 提供 Flatten 等能力

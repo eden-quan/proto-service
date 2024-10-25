@@ -1,0 +1,128 @@
+syntax = "proto3";
+
+package api.iam.service.iamv1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/resources;iamv1";
+
+import "third_party/validate/validate.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+
+message Role
+{
+  string name = 1;
+  string title = 2; //Optional
+  string description = 3; //Optional
+  repeated string permissions = 4;
+  string id = 5;
+}
+
+message ServiceAccount
+{
+  string name = 1;
+  string projectId = 2; //Output only
+  string uniqueId = 3; //Output only
+  string email = 4; //Output only
+  string displayName = 5; //Optional
+  string description = 6; //Optional
+  bool disabled = 7; //Output only
+}
+
+message ServiceAccountKey
+{
+  string serviceAccount = 1;
+  string mainAccount = 2;
+  string ak = 3;
+  string sk = 4;
+  bool disabled = 5;
+  int64 createTime = 6;
+}
+
+// allow policy
+message Expr
+{
+  string expression = 1;
+  string title = 2;
+  string description = 3;
+  string location = 4;
+}
+
+message Binding
+{
+  string role = 1;
+  repeated string members = 2;
+  Expr condition = 3;
+}
+
+message Policy
+{
+  //id
+  string id = 1;
+  //政策名
+  string name = 2;
+  //标题
+  string title = 3;
+  //描述
+  string description = 4;
+  //绑定数据
+  repeated Binding bindings = 5;
+  //政策类型（0 预设政策 1自定义政策）
+  int32 policyType = 6;
+  //版本，默认是1
+  int32 version = 7;
+}
+
+message Service
+{
+  string id = 1;//output only
+  string name = 2;
+  string title = 3;
+  string description = 4;
+}
+
+message Permission
+{
+  string id = 1; //output only
+  string verb = 2; //service.resource.veb
+  string title = 3;
+  string description = 4;
+  string serviceId = 5;
+}
+
+message User
+{
+  string id = 1;
+  string name = 2;
+  string email = 3; //
+  string passwd = 4; //input only
+}
+
+
+message Group
+{
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string description = 4;
+}
+
+message Resource
+{
+  //资源id
+  string resourceId = 1;
+  //资源名称
+  string displayName = 2;
+  //父节点id
+  string parentId = 3;
+  //资源类型（0 组织，1 文件夹，2 项目）
+  int32 resourceType = 4;// 0 organization 1 folder 2 project 3 service
+}
+
+
+

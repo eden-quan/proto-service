@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package api.iam.service.iamv1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/resources;iamv1";
+
+import "third_party/validate/validate.proto";
+import "api/iam-service/v1/resources/iam.common.resource.v1.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+message CreateServiceRequest
+{
+  string title = 1;
+  string description = 2;
+  string name = 3;
+}
+
+message CreateServiceResponse
+{
+  Service service = 1;
+}
+
+message CreateServicePermissionsRequest
+{
+  Service service = 1;
+  repeated Permission pers = 2;
+}
+
+message CreateServicePermissionsResponse
+{
+  int32 result = 1;
+}
+
+message UpdateServicePermissionsRequest
+{
+  string serviceId = 1;
+  repeated Permission pers = 2;
+}
+
+message UpdateServicePermissionsResponse
+{
+  int32 result = 1;
+}
+
+message ListServicesRequest
+{
+}
+
+message ListServicesResponse
+{
+  repeated Service sers = 1;
+}
+
+message UpdateServiceRequest
+{
+  Service ser = 1;
+}
+
+message UpdateServiceResponse
+{
+  int32 result = 1;
+}
+
+message ListPermissionsRequest
+{
+  string serviceId = 1;
+}
+
+message ListPermissionsResponse
+{
+  repeated Permission pers = 1;
+}
+
+message UpdatePermissionRequest
+{
+  Permission per = 1;
+}
+
+message UpdatePermissionResponse
+{
+  int32 result = 1;
+}
+
+message CreatePermissionRequest {
+  //行为（service.resource.veb）
+  string verb = 1; //service.resource.veb
+  //资源
+  string resource = 2;//
+  //标题
+  string title = 3;
+  //描述
+  string description = 4;
+  //服务id
+  string serviceId = 5;
+}
+
+message CreatePermissionResponse {
+  int32 result = 1;
+}
+
+message GetPermissionRequest {
+  string perId = 1;
+}
+
+message GetPermissionResponse {
+  int32 result  = 1;
+  Permission per = 2;
+}
+
+message DeletePermissionRequest {
+  string perId = 1;
+}
+
+message DeletePermissionResponse {
+  int32 result  = 1;
+}
+

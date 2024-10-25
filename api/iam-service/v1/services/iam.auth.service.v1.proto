@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package api.iam.service.iamservicev1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/services;iamservicev1";
+
+import "api/common/v3/services/common.services.proto";
+import "api/iam-service/v1/resources/iam.auth.resource.v1.proto";
+import "google/protobuf/descriptor.proto";
+
+
+service IAMAuthService {
+
+  option (eden.common.service_name) = "iam-service/v1";
+
+  rpc CheckServiceAuth(iamv1.CheckServiceAuthRequest) returns(iamv1.CheckServiceAuthResponse){}
+  rpc CheckUserAuth(iamv1.CheckUserAuthRequest) returns(iamv1.CheckUserAuthResponse){}
+  rpc Validate(iamv1.ValidateRequest) returns(iamv1.ValidateResponse){}
+}
+

@@ -1,0 +1,5 @@
+syntax="proto3";
+
+package iam.config.v1;
+
+option go_package="gitlab.lainuoniao.cn/eden-quan/proto-service/app/iam-service/internal/conf;conf";

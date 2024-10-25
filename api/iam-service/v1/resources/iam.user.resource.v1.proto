@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package api.iam.service.iamv1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/resources;iamv1";
+
+import "third_party/validate/validate.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+
+message UserUser {
+  int64 uid = 1;//unique
+  string accessToken = 2; //output only
+  string refreshToken = 3; //output only
+  int64 refreshTokenExpireTime = 4;//output only
+  int64 accessTokenExpireTime = 5;//output only
+  int32 registerType = 6; //output only
+  int64 companyId = 7;
+  int32 companyLabel = 8;
+}
+
+message UserCheckLastLoginRequest {
+  int64 uid = 1;
+}
+
+message UserCheckLastLoginResponse {
+  bool yes = 1;
+}
+
+message UserUserLoginRequest {
+  int64 uid = 1;
+  bool kickLastLogin = 2;// if kick last login user off
+  int64 companyId = 3;
+  int32 companyLabel = 4;
+}
+
+message UserUserLogoutRequest {
+  string token = 1;
+
+  // uid
+  bool isLogoutByUid = 2;
+  int64 uid = 3;
+}
+
+message UserUserLogoutReply {
+  string refreshToken = 1;
+}
+
+message UserUserRegisterRequest {
+  bool isAutoLogin = 1;
+  int32 registerType = 2; // 0 design company 1 supplierCompany 2 platform company
+  int64 companyId = 3;
+  int32 companyLabel = 4;
+}
+
+message UserCheckTokenRequest {
+  string token = 1;
+}
+
+message UserCheckTokenResponse {
+  int32 result = 1;
+  string uid = 2;
+  string refreshToken = 3;
+  int64 refreshTokenExpireTime = 4;
+  int32 registerType = 5;
+  int64 companyId = 6;
+  int32 companyLabel = 8;
+}
+
+message UserCheckUserRequest {
+  string uid = 1;
+}
+
+message UserCheckUserResponse {
+  int32 result = 1;
+}
+
+message UserRefreshTokenRequest {
+  string refreshToken = 1;
+}
+
+message UserRefreshTokenResponse {
+  string accessToken = 1;
+  string refreshToken = 2;
+  int64 refreshTokenExpireTime = 3;
+  int64 accessTokenExpireTime = 4;
+  int64 companyId = 7;
+  int32 companyLabel = 8;
+}
+
+message UserDeleteUserRequest {
+  repeated int64 uidList = 1;
+  bool isOnlyUserToken = 2;
+}
+
+message UserDeleteUserResponse {
+}
+
+message UserUpdateCompanyIdAndLabelRequest {
+  string refreshToken = 1;
+  int64 companyId = 2;
+  int32 companyLabel = 3;
+  int64 uid = 4;  // if refresh token is empty,then update by uid
+}
+
+message UserUpdateCompanyIdAndLabelResponse {
+  int32 code = 1;
+  string message = 2;
+}

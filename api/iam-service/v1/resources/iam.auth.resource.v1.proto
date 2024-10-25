@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package api.iam.service.iamv1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/resources;iamv1";
+
+import "third_party/validate/validate.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+
+message CheckServiceAuthRequest
+{
+  string permission = 1;
+  string resource = 2;
+  string ak = 3;
+}
+
+message CheckServiceAuthResponse
+{
+  bool isAllowed = 1;
+  string cacheData = 2;
+}
+
+message CheckUserAuthRequest
+{
+  string token = 1;
+  string resource = 2;
+  string permission = 3;
+}
+
+message CheckUserAuthResponse
+{
+  bool isAllowed = 1;
+  string cacheData = 2;
+}
+
+message ValidateRequest
+{
+  string member = 1;
+  string permission = 2;
+  string policyJson = 3;
+}
+
+message ValidateResponse
+{
+  bool isAllowed = 1;
+}

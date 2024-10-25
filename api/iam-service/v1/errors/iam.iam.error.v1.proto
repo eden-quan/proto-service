@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package api.iam.service.iamerrorv1;
+
+import "errors/errors.proto";
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/errors;iamerrorv1";
+
+
+// ERROR .
+enum IAM_ERROR {
+  option (errors.default_code) = 500;
+
+  IAM_UNKNOWN = 0 [ (errors.code) = 404 ];
+  IAM_CONTENT_MISSING = 100000001 [ (errors.code) = 400 ];
+  IAM_CONTENT_ERROR = 100000002 [ (errors.code) = 400 ];
+}
