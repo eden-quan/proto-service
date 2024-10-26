@@ -115,7 +115,7 @@ dist
 openapi.yaml
 _output
 mytest
-/api/**/*.pb.go
-/api/**/*.swagger.json
-/api/**/*.pb.validate.go
-/app/**/internal/conf/*.pb.go
+#/api/**/*.pb.go
+#/api/**/*.swagger.json
+#/api/**/*.pb.validate.go
+#/app/**/internal/conf/*.pb.go
