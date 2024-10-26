@@ -1,0 +1,5 @@
+syntax="proto3";
+
+package sms.config.v1;
+
+option go_package="gitlab.lainuoniao.cn/eden-quan/proto-service/app/sms-service/internal/conf;conf";

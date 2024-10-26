@@ -1,9 +1,9 @@
 package repos
 
 import (
-    "context"
+	"context"
 
-    "gitlab.lainuoniao.cn/eden-quan/proto-service/app/iam-service/internal/domain/data"
+	"gitlab.lainuoniao.cn/eden-quan/proto-service/app/iam-service/internal/domain/data"
 )
 
 type IamRepo interface {

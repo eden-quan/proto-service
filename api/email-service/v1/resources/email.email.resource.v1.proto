@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api.email.service.emailv1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/email-service/v1/resources;emailv1";
+
+import "third_party/validate/validate.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+
+message SendEmailRequest
+{
+  string from = 1;
+  string to = 2;
+  string subject = 3;
+  string body = 4;
+}
+
+message SendEmailReply
+{
+  int32 code = 1;
+}

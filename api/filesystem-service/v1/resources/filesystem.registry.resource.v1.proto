@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package api.filesystem.service.fileregistryv1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/filesystem-service/v1/resources;filesystemv1";
+
+import "third_party/validate/validate.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+
+
+// 1 and 3 responce
+message RGCommonValueRequest
+{
+  string key = 1;
+  string valName = 2;
+}
+
+// 1 reply
+message RGQueryValueReply
+{
+  int32 code = 1;
+  string message = 2;
+  string value = 3;
+}
+
+// 2 responce
+message RGSetValueRequest
+{
+  string key = 1;
+  string valName = 2;
+  string value = 3;
+}
+
+// 2 reply
+message RGSetValueReply
+{
+  int32 code = 1;
+  string message = 2;
+}
+
+// 3 reply
+message RGDeleteValueReply
+{
+  int32 code = 1;
+  string message = 2;
+}
+
+// 4 5 and 6 responce
+message RGCommonRequest
+{
+  string key = 1;
+}
+
+// 4 reply
+message RGListValueReply
+{
+  int32 code = 1;
+  string message = 2;
+  repeated RGValues values = 3;
+
+}
+message RGValues
+{
+  string key = 1;
+  string name = 2;
+  string value = 3;
+}
+
+// 5 reply
+message RGDeleteReply
+{
+  int32 code = 1;
+  string message = 2;
+}
+
+// 6 reply
+message RGListReply
+{
+  int32 code = 1;
+  string message = 2;
+  repeated string subKeys = 3;
+}
+
+message RGBatchQueryValueRequest
+{
+  repeated RGCommonValueRequest parameters = 1;
+}
+
+message RGBatchQueryValueReply
+{
+  int32 code = 1;
+  string message = 2;
+  repeated RGValues data = 3;
+}

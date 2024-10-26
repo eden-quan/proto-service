@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package api.filesystem.service.fileioenumv1;
+
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/filesystem-service/v1/enums;filesystemenumv1";
+
+// FilesystemServiceInitEnum enum
+message FileioInitEnum {
+  // PingInit enum
+  enum FileioInit {
+    // UNSPECIFIED 未指定
+    UNSPECIFIED = 0;
+  }
+}

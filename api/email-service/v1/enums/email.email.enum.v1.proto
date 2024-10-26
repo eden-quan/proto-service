@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package api.email.service.emailenumv1;
+
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/email-service/v1/enums;emailenumv1";
+
+// EmailServiceInitEnum enum
+message EmailInitEnum {
+  // PingInit enum
+  enum EmailInit {
+    // UNSPECIFIED 未指定
+    UNSPECIFIED = 0;
+  }
+}

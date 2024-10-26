@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package api.filesystem.service.filewriteservicev1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/filesystem-service/v1/services;filesystemservicev1";
+
+import "api/proto-common/v3/services/common.services.proto";
+import "api/filesystem-service/v1/resources/filesystem.filewrite.resource.v1.proto";
+import "api/filesystem-service/v1/resources/filesystem.common.resource.v1.proto";
+import "google/protobuf/descriptor.proto";
+
+service FileWriteServiceV1
+{
+  option (proto_common.common.service_name) = "filewrite-service/v1";
+
+  rpc WriteFileStream(stream filewritev1.FSWriteFileStream) returns (filecommonv1.FSCommonReply) {};
+  rpc WriteFile(filewritev1.FSWriteFileRequest) returns (filecommonv1.FSCommonReply) {};
+}

@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package api.filesystem.service.fileiov1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/filesystem-service/v1/resources;filesystemv1";
+
+import "third_party/validate/validate.proto";
+import "api/filesystem-service/v1/errors/filesystem.fileio.error.v1.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+message IOFSFileUrlRequest
+{
+  string path = 1;
+  string md5 = 2;
+  int64 size = 3;
+  int32 publicRead = 4;
+  int32 internal = 5;
+  string filename = 6;
+}
+
+message IOFSFileUrlReply
+{
+  fileioerrorv1.FILEIO_ERROR code = 1;
+  string message = 2;
+  string url = 3;
+}
+
+message IOBatchGetDownloadUrlRequest
+{
+  repeated IOFSFileUrlRequest paths = 1;
+}
+
+message IOUrlInfo
+{
+  string path = 1;
+  string md5 = 2;
+  string url = 3;
+}
+
+message IOBatchGetDownloadUrlReply
+{
+  fileioerrorv1.FILEIO_ERROR code = 1;
+  string message = 2;
+  repeated IOUrlInfo data = 3;
+}

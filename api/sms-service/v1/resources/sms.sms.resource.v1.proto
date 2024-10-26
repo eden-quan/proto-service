@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package api.sms.service.smsv1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/sms-service/v1/resources;smsv1";
+
+import "third_party/validate/validate.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+message SendSMSRequest
+{
+  string phone = 1;
+  string content = 2;
+  string templateCode = 3;
+}
+
+message SendSMSReply
+{
+  int32 code = 1;
+}

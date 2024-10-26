@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package proto_common.common.status;
+
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/proto-common/v3/enums;common_enums";
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.EnumValueOptions {
+  string description = 99999999;
+}
+
+message StatusCodeEnum {
+  enum StatusCode {
+    STATUS_CODE_UNSPECIFIED = 0;
+  }
+}

@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package api.filesystem.service.filesystemv1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/filesystem-service/v1/resources;filesystemv1";
+
+import "third_party/validate/validate.proto";
+import "api/filesystem-service/v1/errors/filesystem.fileio.error.v1.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+
+message FSFileObject
+{
+  string path = 1;
+  uint32 type = 2; //0:folder, 1:file
+}
+
+message FSListEntriesReply
+{
+  fileioerrorv1.FILEIO_ERROR code = 1;
+  string message = 2;
+  repeated FSFileObject entries = 3;
+}
+
+message FSCreateFileRequest
+{
+  string path = 1;
+  string attribute = 2;
+}
+
+message FSObjectCopyRequest
+{
+  string pathFrom = 1;
+  string pathTo = 2;
+  string attribute = 3;
+}
+
+message FSObjectRenameRequest
+{
+  string pathFrom = 1;
+  string pathTo = 2;
+}
+
+message FSObjectExistReply
+{
+  fileioerrorv1.FILEIO_ERROR code = 1;
+  string message = 2;
+  uint32 exist = 3;
+}
+
+message FSObjectEquivalentRequest
+{
+  string srcPath = 1;
+  string targetPath = 2;
+}
+
+message FSObjectEquivalentReply
+{
+  fileioerrorv1.FILEIO_ERROR code = 1;
+  string message = 2;
+  uint32 quivalent = 3;
+}
+
+message FSObjectSizeRequest
+{
+  string path = 1;
+  string md5 = 2;
+}
+
+message FSObjectSizeReply
+{
+  fileioerrorv1.FILEIO_ERROR code = 1;
+  string message = 2;
+  int64 size = 3;
+}
+
+message FSFileAttributeReply
+{
+  fileioerrorv1.FILEIO_ERROR code = 1;
+  string message = 2;
+  string attribute = 3;
+  string md5 = 4;
+  int64 size = 5;
+}
+
+message FSBatchGetSizeRequest
+{
+  repeated string paths = 1;
+}
+
+message FSObjectSizeInfo
+{
+  string path = 1;
+  int64 size = 2;
+}
+
+message FSBatchGetSizeReply
+{
+  fileioerrorv1.FILEIO_ERROR code = 1;
+  string message = 2;
+  repeated FSObjectSizeInfo data = 3;
+}
+
+message FSBatchObjectRemoveRequest
+{
+  repeated string paths = 1;
+}

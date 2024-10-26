@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package api.filesystem.service.fileioservicev1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/filesystem-service/v1/services;filesystemservicev1";
+
+import "api/proto-common/v3/services/common.services.proto";
+import "api/filesystem-service/v1/resources/filesystem.fileio.resource.v1.proto";
+import "google/protobuf/descriptor.proto";
+
+
+// FileioV1 示例服务
+service FileIOApiV1 {
+
+  option (proto_common.common.service_name) = "fileio-service/v1";
+
+  rpc GetDownloadUrl(fileiov1.IOFSFileUrlRequest) returns (fileiov1.IOFSFileUrlReply);
+  rpc GetInternalDownloadUrl(fileiov1.IOFSFileUrlRequest) returns (fileiov1.IOFSFileUrlReply);
+  rpc GetUploadUrl(fileiov1.IOFSFileUrlRequest) returns (fileiov1.IOFSFileUrlReply);
+  rpc GetInternalUploadUrl(fileiov1.IOFSFileUrlRequest) returns (fileiov1.IOFSFileUrlReply);
+  rpc BatchGetDownloadUrl(fileiov1.IOBatchGetDownloadUrlRequest) returns (fileiov1.IOBatchGetDownloadUrlReply);
+
+//  rpc Ping(fileiov1.FileioPingReq) returns (fileiov1.FileioPingResp) {
+//    option (google.api.http) = {
+//      post: "/api/v1/fileiov1/ping/{message}",
+//      body: "*"
+//    };
+//  }
+
+}

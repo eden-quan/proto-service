@@ -1,0 +1,5 @@
+syntax="proto3";
+
+package filesystem.config.v1;
+
+option go_package="gitlab.lainuoniao.cn/eden-quan/proto-service/app/filesystem-service/internal/conf;conf";

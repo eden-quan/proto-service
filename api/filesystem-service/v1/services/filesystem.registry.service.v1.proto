@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package api.filesystem.service.filewriteservicev1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/filesystem-service/v1/services;filesystemservicev1";
+
+import "api/proto-common/v3/services/common.services.proto";
+import "api/filesystem-service/v1/resources/filesystem.registry.resource.v1.proto";
+import "google/protobuf/descriptor.proto";
+
+service FileRegistrySystemServiceV1
+{
+  option (proto_common.common.service_name) = "file-registry-service/v1";
+
+  rpc QueryValue(fileregistryv1.RGCommonValueRequest) returns (fileregistryv1.RGQueryValueReply) {};
+  rpc SetValue(fileregistryv1.RGSetValueRequest) returns (fileregistryv1.RGSetValueReply) {};
+  rpc DeleteValue(fileregistryv1.RGCommonValueRequest) returns (fileregistryv1.RGDeleteValueReply) {};
+  rpc ListValue(fileregistryv1.RGCommonRequest) returns (fileregistryv1.RGListValueReply) {};
+  rpc Delete(fileregistryv1.RGCommonRequest) returns (fileregistryv1.RGDeleteReply) {};
+  rpc List(fileregistryv1.RGCommonRequest) returns (fileregistryv1.RGListReply) {};
+  rpc BatchQueryValue(fileregistryv1.RGBatchQueryValueRequest) returns (fileregistryv1.RGBatchQueryValueReply) {};
+}

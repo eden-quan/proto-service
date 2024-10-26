@@ -4,8 +4,7 @@ import (
 	"context"
 
 	kit "gitlab.lainuoniao.cn/eden-quan/go-biz-kit"
-    "gitlab.lainuoniao.cn/eden-quan/proto-service/app/iam-service/internal/inject"
-
+	"gitlab.lainuoniao.cn/eden-quan/proto-service/app/iam-service/internal/inject"
 )
 
 type IamDao struct {

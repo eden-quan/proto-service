@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package api.filesystem.service.fileiomodelv1;
+
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/filesystem-service/v1/models;filesystemmodelv1";
+

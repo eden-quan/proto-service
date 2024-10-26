@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package api.sms.service.smsenumv1;
+
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/sms-service/v1/enums;smsenumv1";
+
+// SmsServiceInitEnum enum
+message SmsInitEnum {
+  // PingInit enum
+  enum SmsInit {
+    // UNSPECIFIED 未指定
+    UNSPECIFIED = 0;
+  }
+}

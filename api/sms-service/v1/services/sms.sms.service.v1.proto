@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package api.sms.service.smsservicev1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/sms-service/v1/services;smsservicev1";
+
+import "api/proto-common/v3/services/common.services.proto";
+import "api/sms-service/v1/resources/sms.sms.resource.v1.proto";
+
+
+
+
+service SMSServiceV1 {
+
+  option (proto_common.common.service_name) = "sms-service/v1";
+
+  rpc SendSMS (smsv1.SendSMSRequest) returns (smsv1.SendSMSReply);
+
+}

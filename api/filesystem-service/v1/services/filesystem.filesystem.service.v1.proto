@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package api.filesystem.service.filesystemservicev1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/filesystem-service/v1/services;filesystemservicev1";
+
+import "api/proto-common/v3/services/common.services.proto";
+import "api/filesystem-service/v1/resources/filesystem.filesystem.resource.v1.proto";
+import "api/filesystem-service/v1/resources/filesystem.common.resource.v1.proto";
+import "google/protobuf/descriptor.proto";
+
+service FileSystemServiceV1
+{
+  option (proto_common.common.service_name) = "filesystem-service/v1";
+
+  rpc CreateFSDirectory(filecommonv1.FSCommonRequest) returns (filecommonv1.FSCommonReply) {};
+  rpc ListEntries(filecommonv1.FSCommonRequest) returns (filesystemv1.FSListEntriesReply) {};
+  rpc CreateFSFile(filesystemv1.FSCreateFileRequest) returns (filecommonv1.FSCommonReply) {};
+  rpc ObjectCopy(filesystemv1.FSObjectCopyRequest) returns (filecommonv1.FSCommonReply) {};
+  rpc ObjectRemove(filecommonv1.FSCommonRequest) returns (filecommonv1.FSCommonReply) {};
+  rpc ObjectRename(filesystemv1.FSObjectRenameRequest) returns (filecommonv1.FSCommonReply) {};
+  rpc ObjectExist(filecommonv1.FSCommonRequest) returns (filesystemv1.FSObjectExistReply) {};
+  rpc ObjectEquivalent(filesystemv1.FSObjectEquivalentRequest) returns (filesystemv1.FSObjectEquivalentReply) {};
+  rpc ObjectSize(filesystemv1.FSObjectSizeRequest) returns(filesystemv1.FSObjectSizeReply) {};
+  rpc GetFileAttribute(filecommonv1.FSCommonRequest) returns(filesystemv1.FSFileAttributeReply) {};
+  rpc BatchGetSize(filesystemv1.FSBatchGetSizeRequest) returns(filesystemv1.FSBatchGetSizeReply) {};
+  rpc BatchObjectRemove(filesystemv1.FSBatchObjectRemoveRequest) returns(filecommonv1.FSCommonReply) {};
+}

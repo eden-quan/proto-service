@@ -5,14 +5,14 @@ package api.iam.service.iamservicev1;
 // 多语言特定包名，用于源代码引用
 option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/services;iamservicev1";
 
-import "api/common/v3/services/common.services.proto";
+import "api/proto-common/v3/services/common.services.proto";
 import "api/iam-service/v1/resources/iam.user.resource.v1.proto";
 import "google/protobuf/descriptor.proto";
 
 
 service IAMUserService {
 
-  option (eden.common.service_name) = "iam-service/v1";
+  option (proto_common.common.service_name) = "iam-service/v1";
 
   rpc UserLogin(iamv1.UserUserLoginRequest) returns(iamv1.UserUser){}
   rpc UserLogout(iamv1.UserUserLogoutRequest) returns(iamv1.UserUserLogoutReply){}
