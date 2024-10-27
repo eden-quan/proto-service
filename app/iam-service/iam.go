@@ -22,7 +22,7 @@ import (
 
 	contextutil "gitlab.lainuoniao.cn/eden-quan/go-biz-kit/context"
 	"gitlab.lainuoniao.cn/eden-quan/go-biz-kit/injection"
-	iamv1 "gitlab.lainuoniao.cn/eden-quan/proto-service/api/"
+	iamv1 "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/resources"
 	iamservicev1 "gitlab.lainuoniao.cn/eden-quan/proto-service/api/iam-service/v1/services"
 	errorv1 "gitlab.lainuoniao.cn/eden-quan/proto-service/api/proto-common/v1/errors"
 )
@@ -50,19 +50,7 @@ func InjectIAMUserService(inj *injection.Injector) {
 	inj.Inject(NewIAMUserService)
 }
 
-// Get 为测试接口，后续验证没问题后将用 GetImpl 替代
-func (iam *IAMUserService) Get(ctx context.Context) (*iamv1, error) {
-	return &iamv1.UserCheckTokenResponse{
-		Uid:                    "123456789",
-		RefreshToken:           "hello_token",
-		RefreshTokenExpireTime: 0,
-		RegisterType:           0,
-		CompanyId:              1838958666460434432,
-		CompanyLabel:           0,
-	}, nil
-}
-
-func (iam *IAMUserService) GetImpl(ctx context.Context) (*iamv1.UserCheckTokenResponse, error) {
+func (iam *IAMUserService) Get(ctx context.Context) (*iamv1.UserCheckTokenResponse, error) {
 	token, ok := contextutil.GetAuthorizationToken(ctx)
 	if !ok {
 		return nil, errorv1.ERROR_UNAUTHORIZED.ToError("invalid token")
