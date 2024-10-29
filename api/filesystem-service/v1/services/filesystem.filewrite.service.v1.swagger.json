@@ -35,7 +35,8 @@
         0,
         100,
         101,
-        102
+        102,
+        103
       ],
       "default": 0,
       "description": "ERROR ."

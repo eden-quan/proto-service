@@ -20,6 +20,7 @@ var FILEIO_ERRORMessageMap = map[int32]string{
 	100: "",
 	101: "",
 	102: "",
+	103: "",
 }
 
 var FILEIO_ERRORHttpCodeMap = map[int32]int{
@@ -27,6 +28,7 @@ var FILEIO_ERRORHttpCodeMap = map[int32]int{
 	100: 200,
 	101: 200,
 	102: 200,
+	103: 500,
 }
 
 func (e FILEIO_ERROR) stackTrace(skipFrame int) string {
@@ -148,4 +150,16 @@ func IsAccessDenied(err error) bool {
 
 func ErrorAccessDenied(format string, args ...interface{}) *errors.Error {
 	return FILEIO_ERROR_ACCESS_DENIED.toError(4, format, args...)
+}
+
+func IsInternal(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == FILEIO_ERROR_INTERNAL.String() && e.Code == 500
+}
+
+func ErrorInternal(format string, args ...interface{}) *errors.Error {
+	return FILEIO_ERROR_INTERNAL.toError(4, format, args...)
 }

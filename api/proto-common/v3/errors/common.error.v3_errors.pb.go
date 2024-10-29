@@ -29,7 +29,7 @@ var ERRORMessageMap = map[int32]string{
 var ERRORHttpCodeMap = map[int32]int{
 	0:         200,
 	10000001:  400,
-	10000002:  404,
+	10000002:  500,
 	10010003:  401,
 	100000001: 400,
 	100000002: 401,
@@ -138,17 +138,17 @@ func ErrorBadRequest(format string, args ...interface{}) *errors.Error {
 }
 
 // 未处理错误
-func IsUnknown(err error) bool {
+func IsInternal(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ERROR_UNKNOWN.String() && e.Code == 404
+	return e.Reason == ERROR_INTERNAL.String() && e.Code == 500
 }
 
 // 未处理错误
-func ErrorUnknown(format string, args ...interface{}) *errors.Error {
-	return ERROR_UNKNOWN.toError(4, format, args...)
+func ErrorInternal(format string, args ...interface{}) *errors.Error {
+	return ERROR_INTERNAL.toError(4, format, args...)
 }
 
 // 认证错误

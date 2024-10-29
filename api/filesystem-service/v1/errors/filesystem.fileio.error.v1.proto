@@ -16,5 +16,5 @@ enum FILEIO_ERROR {
   OBJECT_NOT_EXIST = 100 [(errors.code) = 200];
   OBJECT_EXIST = 101 [(errors.code) = 200];
   ACCESS_DENIED = 102 [(errors.code) = 200];
-
+  INTERNAL = 103 [(errors.code) = 500];
 }
