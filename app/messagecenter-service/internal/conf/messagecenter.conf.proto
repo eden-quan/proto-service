@@ -1,0 +1,5 @@
+syntax="proto3";
+
+package messagecenter.config.v1;
+
+option go_package="gitlab.lainuoniao.cn/eden-quan/proto-service/app/messagecenter-service/internal/conf;conf";

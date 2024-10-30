@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package api.messagecenter.service.messagecenterenumv1;
+
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/messagecenter-service/v1/enums;messagecenterenumv1";
+
+
+message MsgStatusEnum {
+  // 消息状态
+  enum MsgStatus {
+    // 未知
+    MSG_STATUS_UNKNOWN = 0;
+    // 未读
+    MSG_STATUS_UNREAD = 1;
+    // 已读
+    MSG_STATUS_READ = 2;
+    // 已撤销
+    MSG_STATUS_REVOKE = 3;
+  }
+}
+
+message MsgDisplayTypeEnum {
+  // 消息展示类型
+  enum MsgDisplayType {
+    // 未知
+    MSG_DISPLAY_UNKNOWN = 0;
+    // 消息卡片
+    MSG_DISPLAY_CARD = 1;
+    // 文本
+    MSG_DISPLAY_TEXT = 2;
+    // markdown 文本
+    MSG_DISPLAY_MARKDOWN = 3;
+  }
+}
+
+message MsgTypeEnum {
+  // 消息类型
+  enum MsgType {
+    // 未知
+    MSG_TYPE_UNKNOWN = 0;
+    // 测试
+    MSG_TYPE_TEST1 = 1;
+    MSG_TYPE_TEST2 = 2;
+    // 创建企业
+    MSG_TYPE_CREATE_COMPANY = 100;
+    // 邀请进企业消息
+    MSG_TYPE_INVITE_JOIN_COMPANY = 101;
+    // 从企业移除成员消息
+    MSG_TYPE_REMOVE_FROM_COMPANY = 103;
+    // 新成员加入通知
+    MSG_TYPE_JOIN_COMPANY = 105;
+    // 事件消息-切换了企业
+    MSG_TYPE_SWITCH_COMPANY = 108;
+    // 事件消息-从企业移除成员
+    MSG_TYPE_EVENT_REMOVE_FROM_COMPANY = 109;
+    // 单点登录，被踢下线事件消息
+    MSG_TYPE_KICK_OFFLINE = 750;
+  }
+}
+
+message MsgButtonColorEnum {
+  // 按钮颜色
+  enum MsgButtonColor {
+    BUTTON_COLOR_UNKNOWN = 0;
+    BUTTON_COLOR_DEFAULT = 1;
+    BUTTON_COLOR_PRIMARY = 2;
+    BUTTON_COLOR_DANGER = 3;
+  }
+}
+
+message MsgButtonActionTypeEnum {
+  // 按钮动作
+  enum MsgButtonActionType {
+    BUTTON_ACTION_UNKNOWN = 0;
+    // 新标签打开
+    BUTTON_ACTION_OPEN_BLANK = 1;
+    // 当前页面打开
+    BUTTON_ACTION_OPEN_CURRENT = 2;
+    // 直接请求
+    BUTTON_ACTION_OPEN_REQUEST = 3;
+  }
+}
+
+message MsgButtonStyleEnum {
+  // 按钮样式
+  enum MsgButtonStyle {
+    // 正常样式
+    STYLE_NORMAL = 0;
+    // 隐藏
+    STYLE_HIDDEN = 1;
+    // 禁止
+    STYLE_DISABLE = 2;
+  }
+}
+
+message PlatformEnum {
+  // 平台
+  enum Platform {
+    PLATFORM_UNKNOWN = 0;
+    RHINOBIRD = 1;
+  }
+}

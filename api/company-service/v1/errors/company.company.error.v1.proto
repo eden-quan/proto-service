@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package api.company.service.companyerrorv1;
+
+import "errors/errors.proto";
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/company-service/v1/errors;companyerrorv1";
+
+
+// ERROR .
+enum COMPANY_ERROR {
+  option (errors.default_code) = 500;
+
+  COMPANY_UNKNOWN = 0 [(errors.code) = 404];
+
+  PARAM = 100001 [(errors.code) = 400]; // 	params error
+  INTERNAL = 100002 [(errors.code) = 400]; // 	internal error
+  AUTHORIZATION_TOKEN = 100003 [(errors.code) = 400]; // 	authorization token error
+  TOKEN_INVALID = 100004 [(errors.code) = 400]; // 	token invalid
+  USER_NOT_EXIT = 100001401 [(errors.code) = 400]; // 	user is not exist
+  COMPANY_NOT_EXIT = 100001402 [(errors.code) = 400]; // 	company is not exist
+  USER_NOT_IN_COMPANY = 100001403 [(errors.code) = 400]; // 	user not in company
+  USER_NOT_ADMIN = 100001404 [(errors.code) = 400]; // 	user not admin
+  PWD_DecryptPassword = 100001405 [(errors.code) = 400]; // 	password is Decrypted failed
+  UPLOAD_DATA = 100001406 [(errors.code) = 400]; // 	upload data error
+  PRIVILEGE_NOT_ENOUGH = 100001407 [(errors.code) = 400]; // 	privilege not good
+  MEMBER_IS_FULL = 100001408 [(errors.code) = 400]; // 	member is full
+  USETIME_IS_FULL = 100001409 [(errors.code) = 400]; // 	use time is over
+  PWD_EMPTY = 100001410 [(errors.code) = 400]; // 	passwd is empty
+  PWD_SAME = 100001411 [(errors.code) = 400]; // 	passwd is same
+  DELETE_YOURSELF = 100001412 [(errors.code) = 400]; // 	can not delete yourself
+  PHONE_EXIST = 100001413 [(errors.code) = 400]; // 	this phone exist
+  PWD_LENGTH_NOT_GOOD = 100001414 [(errors.code) = 400]; // 	passwd length is not good
+  BUSINESS_LICENSE_EMPTY = 100001415 [(errors.code) = 400]; // 	business license is empty
+  PRODUCTION_LICENSE_EMPTY = 100001416 [(errors.code) = 400]; // 	production license is empty
+  PRIVILEGE_TYPE_ERROR = 100001417 [(errors.code) = 400]; // 	privilege type error
+  EMAIL_NOT_REGEX_MATCH = 100001418 [(errors.code) = 400]; // 	email regex error
+  PHONE_NOT_REGEX_MATCH = 100001419 [(errors.code) = 400]; // 	phone regex error
+  ROLE_PERMISSION_NOT_ENOUGH = 100001420 [(errors.code) = 400]; // 	role permission not enough
+  USER_NOT_REGISTED = 100001421 [(errors.code) = 400]; // 	user not registed
+  INVITE_SELF = 100001422 [(errors.code) = 400]; // 	invite self not allow
+  FORBID = 100001423 [(errors.code) = 400]; // 	forbid error
+  USER_IN_COMPANY = 100001424 [(errors.code) = 400]; // 	user in company
+  COMPANY_NOT_FOUND = 100001425 [(errors.code) = 400]; // 	company not found
+  INVITE_RECORD_USED = 100001426 [(errors.code) = 400]; // 	invite record used
+  CREATE_INVITE_RECORD = 100001427 [(errors.code) = 400]; // 	create invite record error
+  NOT_SUPPORT_ADD_MEMBER = 100001428 [(errors.code) = 400]; // 	not support add member
+  HAS_NOT_INVITE_RECORD = 100001429 [(errors.code) = 400]; // 	has not invite record
+  CANNOT_DELETE_PERSON_ORG = 100001430 [(errors.code) = 400]; // 	cannot delete company
+  NOT_SUPPORT_DEL_MEMBER = 100001431 [(errors.code) = 400]; // 	not support delete member
+  SWITCH_IS_CURRENT_COMPANY = 100001432 [(errors.code) = 400]; // 	switch company is current company
+}

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package api.company.service.companymodelv1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/company-service/v1/models;companymodelv1";
+
+message CompanyDemoModel {
+    string name = 1;  // 测试字段, 通过后面模板可为字段增加自定义 tag, #db:"name"
+    int32 age = 2;    // 测试字段, #db:"age"
+}

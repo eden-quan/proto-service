@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package api.messagecenter.service.messagecenterservicev1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/messagecenter-service/v1/services;messagecenterservicev1";
+
+import "api/proto-common/v3/services/common.services.proto";
+import "api/messagecenter-service/v1/resources/messagecenter.messagecenter.resource.v1.proto";
+import "google/protobuf/descriptor.proto";
+
+
+// 消息中心接口
+service MessageCenterV1 {
+
+  option (proto_common.common.service_name) = "messagecenter-service/v1";
+
+  // 发送用户消息
+  rpc SendUserMsg (messagecenterv1.SendUserMsgRequest) returns (messagecenterv1.SendUserMsgResponse);
+  //TODO 上面那些rpc将不用，MessageCenter将从pubsub获取到消息
+
+  // 获取用户消息
+  rpc GetUserMsgList (messagecenterv1.GetUserMsgListRequest) returns (messagecenterv1.GetUserMsgListResponse);
+  // 更新用户消息状态
+  rpc UpdateUserMsgStatus (messagecenterv1.UpdateUserMsgStatusRequest) returns (messagecenterv1.UpdateUserMsgStatusResponse);
+  // 已读用户消息
+  rpc ReadUserMsg (messagecenterv1.ReadUserMsgRequest) returns (messagecenterv1.ReadUserMsgResponse);
+  rpc ReadUserMsgByUserDataID (messagecenterv1.ReadUserMsgByUserDataIDRequest) returns (messagecenterv1.ReadUserMsgResponse);
+  // 是否存在未读消息
+  rpc ExistUnreadUserMsg (messagecenterv1.ExistUnreadUserMsgRequest) returns (messagecenterv1.ExistUnreadUserMsgResponse);
+  // 更新消息内容
+  rpc UpdateMsgContent (messagecenterv1.UpdateMsgContentRequest) returns (messagecenterv1.UpdateMsgContentResponse);
+  // 更新消息内容，根据 userdataid
+  rpc UpdateMsgContentByUserDataID (messagecenterv1.UpdateMsgContentByUserDataIDRequest) returns (messagecenterv1.UpdateMsgContentResponse);
+
+  // 设置第三方消息id
+  rpc SetThirdPartyMsgID(messagecenterv1.SetThirdPartyMsgIDRequest) returns (messagecenterv1.SetThirdPartyMsgIDResponse);
+  // 读第三方消息
+  rpc ReadThirdPartyMsg(messagecenterv1.ReadThirdPartyMsgRequest) returns (messagecenterv1.ReadThirdPartyMsgResponse);
+
+  // 前端的长连，用于实时推送消息给前端
+  rpc ServerStream(messagecenterv1.ServerStreamRequest) returns (stream messagecenterv1.ServerStreamMsg);
+}

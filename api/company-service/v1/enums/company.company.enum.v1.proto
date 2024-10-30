@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package api.company.service.companyenumv1;
+
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/company-service/v1/enums;companyenumv1";
+
+// CompanyServiceInitEnum enum
+message CompanyInitEnum {
+  // PingInit enum
+  enum CompanyInit {
+    // UNSPECIFIED 未指定
+    UNSPECIFIED = 0;
+  }
+}

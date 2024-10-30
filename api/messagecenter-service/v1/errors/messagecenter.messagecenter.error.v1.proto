@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package api.messagecenter.service.messagecentererrorv1;
+
+import "errors/errors.proto";
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/messagecenter-service/v1/errors;messagecentererrorv1";
+
+
+// ERROR .
+enum MESSAGECENTER_ERROR {
+  option (errors.default_code) = 500;
+
+  MESSAGECENTER_UNKNOWN = 0 [ (errors.code) = 404 ];
+  MESSAGECENTER_CONTENT_MISSING = 100000001 [ (errors.code) = 400 ];
+  MESSAGECENTER_CONTENT_ERROR = 100000002 [ (errors.code) = 400 ];
+}

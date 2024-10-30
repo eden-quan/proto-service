@@ -1,0 +1,238 @@
+syntax = "proto3";
+
+package api.messagecenter.service.messagecenterv1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/messagecenter-service/v1/resources;messagecenterv1";
+
+import "third_party/validate/validate.proto";
+import "api/messagecenter-service/v1/enums/messagecenter.messagecenter.enum.v1.proto";
+
+// 定义文件级别的验证插件错误码, 在这个文件中的所有 Message 的验证失败错误都会使用该错误码
+option (validate.file_error) = {
+  biz_code: 10010001,
+  http_code: 400
+};
+
+
+// 生产者推送来的消息结构
+message PushMsg {
+  bool isEventMsg = 1;//是否事件消息，否则是持久化消息将会写入数据库
+  int32 fromType = 2; //来源类型
+  int64 fromUID = 3; //来源 UID
+  int64 fromCompanyID = 4; //来源组织 ID
+  string userDataID = 5;// 可选，业务相关的 ID，比如转换状态消息中带上的文件MD5
+  message ToTarget {
+    int64 uID = 1;      //目标 UID
+  }
+  repeated ToTarget targetList = 6;//多个目标
+  messagecenterenumv1.MsgStatusEnum.MsgStatus status = 7;//消息状态
+  messagecenterenumv1.MsgDisplayTypeEnum.MsgDisplayType msgDisplayType = 8;// 消息展示类型
+  messagecenterenumv1.MsgTypeEnum.MsgType msgType = 9;//消息类型，前端根据此消息类型去解析消息内容
+  bytes msgContent = 10;//消息内容，此内容 message center 这里不关心
+}
+
+// 推送给前端的消息结构
+message UserMsg {
+  bool isEventMsg = 1;//是否事件消息
+  uint64 msgID = 2;  //消息 ID
+  int32 fromType = 3; //来源类型
+  int64 fromUID = 4; //来源 UID
+  int64 fromCompanyID = 5; //来源组织 ID
+  string name = 6; // 来源用户名字
+  string avatar = 7; // 来源用户头像
+  string userDataID = 8;//可选，业务相关的 ID，比如转换状态消息中带上的文件MD5
+  int64 toUID = 9;    //目标用户 ID
+  messagecenterenumv1.MsgStatusEnum.MsgStatus status = 10;//消息状态
+  int64 createTime = 11;//创建时间
+  int64 updateTime = 12;//更新时间
+  messagecenterenumv1.MsgDisplayTypeEnum.MsgDisplayType msgDisplayType = 13;// 消息展示类型，1=消息卡片 2=文本 3=markdown文本
+  messagecenterenumv1.MsgTypeEnum.MsgType msgType = 14;//消息类型，前端根据此消息类型去解析消息内容
+  bytes msgContent = 15;//消息内容，此内容 message center 这里不关心
+}
+
+// Setting 内容
+message Setting {
+  int32 heartbeat = 1;
+  int32 keepTime = 2;
+}
+
+// !!!注意：这些消息结构体不能直接SerializeAsString填到msgContent中
+// 因为前端是解析json格式来解析的
+// msgDisplayType=2 消息文本
+message MsgBodyText {
+  string title = 1;
+  string content = 2;
+}
+// !!!注意：这些消息结构体不能直接SerializeAsString填到msgContent中
+// 因为前端是解析json格式来解析的
+// msgDisplayType=3 markdown 文本
+message MsgBodyMarkdown {
+  string title = 1;
+  string content = 2;
+}
+
+message Button {
+  message Action {
+    string url = 1;
+    string method = 2;
+    string body = 3;
+    messagecenterenumv1.MsgButtonActionTypeEnum.MsgButtonActionType type = 4;
+  }
+  string text = 1;
+  string value = 2;
+  string afterChosenText = 3;
+  messagecenterenumv1.MsgButtonColorEnum.MsgButtonColor color = 4;
+  Action action = 5;
+  messagecenterenumv1.MsgButtonStyleEnum.MsgButtonStyle style = 6;
+}
+// !!!注意：这些消息结构体不能直接SerializeAsString填到msgContent中
+// 因为前端是解析json格式来解析的
+// msgDisplayType=1 消息卡片
+message MsgBodyCard {
+  string title = 1;
+  string content = 2;
+  string chosenText = 3;
+  reserved 4 to 10;
+  repeated Button buttons = 11;
+}
+
+// 推送前端消息的流 request
+message ServerStreamRequest {
+  // 用户token
+  string token = 1;
+  // 消息类型，用户自己定义的类型，如果=0，则会筛选所有类型的消息
+  messagecenterenumv1.MsgTypeEnum.MsgType msgType = 2;
+  // 客户端id
+  string clientID = 3;
+  // 平台
+  messagecenterenumv1.PlatformEnum.Platform platform = 4;
+  // project id 连接关联的 project id，可选
+  string projectId = 5;
+}
+
+// 推送前端消息的返回流
+message ServerStreamMsg {
+  //cmd=1:ping msg是空的
+  //cmd=2:msg 解析成 Setting
+  //cmd=3:token 错误
+  //cmd=101:msg 解析成 UserMsg
+  int32 cmd = 1;
+  bytes msg = 2;
+}
+
+// 发送用户消息 请求
+message SendUserMsgRequest {
+  PushMsg msg = 1;
+}
+
+// 发送用户消息 response
+message SendUserMsgResponse {
+  // 消息Id
+  repeated uint64 msgIDList = 1;
+}
+
+// 获取用户消息 request
+message GetUserMsgListRequest {
+  // 用户id
+  int64 toUID = 1;
+  // 返回数量
+  uint32 limit = 2;
+  // 最后一条消息id，用于过滤，倒序
+  uint64 lastMsgID = 3;
+  // 只返回未读消息
+  bool onlyUnread = 4;
+  // 指定 msgType 的消息，0=不指定
+  messagecenterenumv1.MsgTypeEnum.MsgType msgType = 5;
+  // 指定 fromType 的消息,-1=不指定
+  int32 fromType = 6;
+}
+
+// 获取用户消息 response
+message GetUserMsgListResponse {
+  repeated UserMsg list = 1;
+  bool isMore = 2;//是否还有更多消息
+}
+
+// 更新用户消息状态 request
+message UpdateUserMsgStatusRequest {
+  // 用户id
+  int64 uID = 1;
+  // 消息id列表
+  repeated uint64 msgIDs = 2;
+  // 要更新的消息状态
+  messagecenterenumv1.MsgStatusEnum.MsgStatus status = 3;
+}
+
+// 更新用户消息状态 response
+message UpdateUserMsgStatusResponse {}
+
+// 已读用户消息 request
+message ReadUserMsgRequest {
+  // 消息id列表，此全部消息ID将会标记为已读；如果是空的，则当前时间戳的消息都被标记为已读
+  repeated uint64 msgIDs = 1;
+  // 用户id
+  int64 toUID = 2;
+  // 指定 fromType 的消息，-1=不指定
+  int32 fromType = 3;
+}
+
+// 已读用户消（通过 userDataID） request
+message ReadUserMsgByUserDataIDRequest {
+  // userDataID 列表，此 userDataID 的全部消息将会标记为已读
+  repeated string userDataIDs = 1;
+}
+
+// 已读用户消息 response
+message ReadUserMsgResponse {}
+
+// 是否存在未读消息 request
+message ExistUnreadUserMsgRequest {
+  // 用户id
+  int64 toUID = 1;
+  // 指定 fromType 的消息，-1=不指定
+  int32 fromType = 2;
+}
+
+// 是否存在未读消息 response
+message ExistUnreadUserMsgResponse {
+  bool exist = 1;
+}
+
+// 更新消息内容 request
+message UpdateMsgContentRequest {
+  uint64 msgID = 1;
+  bytes content = 2;
+}
+
+message UpdateMsgContentByUserDataIDRequest {
+  string userDataID = 1;
+  bytes content = 2;
+}
+
+// 更新消息内容 response
+message UpdateMsgContentResponse {
+
+}
+
+// 设置第三方消息ID request
+message SetThirdPartyMsgIDRequest {
+  uint64 msgID = 1;
+  int64 toUID = 2;
+  string thirdPartyMsgID = 3;
+}
+
+// 设置第三方消息ID response
+message SetThirdPartyMsgIDResponse {
+
+}
+
+// 读第三方消息 request
+message ReadThirdPartyMsgRequest {
+  repeated string thirdPartyMsgIDs = 1;
+}
+
+// 读第三方消息 response
+message ReadThirdPartyMsgResponse {
+
+}

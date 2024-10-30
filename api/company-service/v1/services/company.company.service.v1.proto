@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package api.company.service.companyservicev1;
+
+// 多语言特定包名，用于源代码引用
+option go_package = "gitlab.lainuoniao.cn/eden-quan/proto-service/api/company-service/v1/services;companyservicev1";
+
+import "api/proto-common/v3/services/common.services.proto";
+import "api/company-service/v1/resources/company.company.resource.v1.proto";
+import "google/protobuf/descriptor.proto";
+
+
+// CompanyV1 示例服务
+service CompanyV1 {
+
+  option (proto_common.common.service_name) = "company-service/v1";
+
+  rpc GetEmployeeInfoByLogin(companyv1.GetEmployeeInfoByLoginRequest) returns(companyv1.GetEmployeeInfoByLoginReply);
+  rpc GetEmployeeByUid(companyv1.GetEmployeeByUidRequest) returns(companyv1.GetEmployeeByUidReply);
+  rpc UpdateEmployee(companyv1.UpdateEmployeeRequest) returns(companyv1.UpdateEmployeeReply);
+  rpc CheckAndUpdatePrivilege(companyv1.CheckAndUpdatePrivilegeRequest) returns(companyv1.CheckAndUpdatePrivilegeReply);
+  rpc GetPrivilegeLimit(companyv1.GetPrivilegeLimitRequest) returns(companyv1.GetPrivilegeLimitReply);
+  rpc GetPartCompanyList(companyv1.GetPartCompanyListRequest) returns (companyv1.GetPartCompanyListReply);
+  rpc GetCompanyById(companyv1.GetCompanyByIdRequest) returns (companyv1.GetCompanyByIdReply);
+  rpc GetUsersByIds(companyv1.GetUsersByIdsRequest) returns (companyv1.GetUsersByIdsReply);
+  rpc GetSupplierCompanyById(companyv1.GetSupplierCompanyByIdRequest) returns (companyv1.GetSupplierCompanyByIdReply);
+  rpc CreateDesignerORGForPerson(companyv1.CreateDesignerORGForPersonRequest) returns (companyv1.CreateDesignerORGForPersonReply);
+  rpc GetAndCheckLastCompany(companyv1.GetAndCheckLastCompanyRequest) returns (companyv1.GetAndCheckLastCompanyReply);
+}

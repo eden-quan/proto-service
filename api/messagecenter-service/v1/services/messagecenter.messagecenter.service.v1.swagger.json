@@ -1,0 +1,319 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api/messagecenter-service/v1/services/messagecenter.messagecenter.service.v1.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "MessageCenterV1"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "MsgDisplayTypeEnumMsgDisplayType": {
+      "type": "integer",
+      "format": "int32",
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "default": 0,
+      "description": "- 0: 未知\n - 1: 消息卡片\n - 2: 文本\n - 3: markdown 文本",
+      "title": "消息展示类型"
+    },
+    "MsgStatusEnumMsgStatus": {
+      "type": "integer",
+      "format": "int32",
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "default": 0,
+      "description": "- 0: 未知\n - 1: 未读\n - 2: 已读\n - 3: 已撤销",
+      "title": "消息状态"
+    },
+    "MsgTypeEnumMsgType": {
+      "type": "integer",
+      "format": "int32",
+      "enum": [
+        0,
+        1,
+        2,
+        100,
+        101,
+        103,
+        105,
+        108,
+        109,
+        750
+      ],
+      "default": 0,
+      "description": "- 0: 未知\n - 1: 测试\n - 100: 创建企业\n - 101: 邀请进企业消息\n - 103: 从企业移除成员消息\n - 105: 新成员加入通知\n - 108: 事件消息-切换了企业\n - 109: 事件消息-从企业移除成员\n - 750: 单点登录，被踢下线事件消息",
+      "title": "消息类型"
+    },
+    "PlatformEnumPlatform": {
+      "type": "integer",
+      "format": "int32",
+      "enum": [
+        0,
+        1
+      ],
+      "default": 0,
+      "title": "平台"
+    },
+    "PushMsgToTarget": {
+      "type": "object",
+      "properties": {
+        "uID": {
+          "type": "string",
+          "format": "int64",
+          "title": "目标 UID"
+        }
+      }
+    },
+    "messagecenterv1ExistUnreadUserMsgResponse": {
+      "type": "object",
+      "properties": {
+        "exist": {
+          "type": "boolean"
+        }
+      },
+      "title": "是否存在未读消息 response"
+    },
+    "messagecenterv1GetUserMsgListResponse": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/messagecenterv1UserMsg"
+          }
+        },
+        "isMore": {
+          "type": "boolean",
+          "title": "是否还有更多消息"
+        }
+      },
+      "title": "获取用户消息 response"
+    },
+    "messagecenterv1PushMsg": {
+      "type": "object",
+      "properties": {
+        "isEventMsg": {
+          "type": "boolean",
+          "title": "是否事件消息，否则是持久化消息将会写入数据库"
+        },
+        "fromType": {
+          "type": "integer",
+          "format": "int32",
+          "title": "来源类型"
+        },
+        "fromUID": {
+          "type": "string",
+          "format": "int64",
+          "title": "来源 UID"
+        },
+        "fromCompanyID": {
+          "type": "string",
+          "format": "int64",
+          "title": "来源组织 ID"
+        },
+        "userDataID": {
+          "type": "string",
+          "title": "可选，业务相关的 ID，比如转换状态消息中带上的文件MD5"
+        },
+        "targetList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/PushMsgToTarget"
+          },
+          "title": "多个目标"
+        },
+        "status": {
+          "$ref": "#/definitions/MsgStatusEnumMsgStatus",
+          "title": "消息状态"
+        },
+        "msgDisplayType": {
+          "$ref": "#/definitions/MsgDisplayTypeEnumMsgDisplayType",
+          "title": "消息展示类型"
+        },
+        "msgType": {
+          "$ref": "#/definitions/MsgTypeEnumMsgType",
+          "title": "消息类型，前端根据此消息类型去解析消息内容"
+        },
+        "msgContent": {
+          "type": "string",
+          "format": "byte",
+          "title": "消息内容，此内容 message center 这里不关心"
+        }
+      },
+      "title": "生产者推送来的消息结构"
+    },
+    "messagecenterv1ReadThirdPartyMsgResponse": {
+      "type": "object",
+      "title": "读第三方消息 response"
+    },
+    "messagecenterv1ReadUserMsgResponse": {
+      "type": "object",
+      "title": "已读用户消息 response"
+    },
+    "messagecenterv1SendUserMsgResponse": {
+      "type": "object",
+      "properties": {
+        "msgIDList": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uint64"
+          },
+          "title": "消息Id"
+        }
+      },
+      "title": "发送用户消息 response"
+    },
+    "messagecenterv1ServerStreamMsg": {
+      "type": "object",
+      "properties": {
+        "cmd": {
+          "type": "integer",
+          "format": "int32",
+          "title": "cmd=1:ping msg是空的\ncmd=2:msg 解析成 Setting\ncmd=3:token 错误\ncmd=101:msg 解析成 UserMsg"
+        },
+        "msg": {
+          "type": "string",
+          "format": "byte"
+        }
+      },
+      "title": "推送前端消息的返回流"
+    },
+    "messagecenterv1SetThirdPartyMsgIDResponse": {
+      "type": "object",
+      "title": "设置第三方消息ID response"
+    },
+    "messagecenterv1UpdateMsgContentResponse": {
+      "type": "object",
+      "title": "更新消息内容 response"
+    },
+    "messagecenterv1UpdateUserMsgStatusResponse": {
+      "type": "object",
+      "title": "更新用户消息状态 response"
+    },
+    "messagecenterv1UserMsg": {
+      "type": "object",
+      "properties": {
+        "isEventMsg": {
+          "type": "boolean",
+          "title": "是否事件消息"
+        },
+        "msgID": {
+          "type": "string",
+          "format": "uint64",
+          "title": "消息 ID"
+        },
+        "fromType": {
+          "type": "integer",
+          "format": "int32",
+          "title": "来源类型"
+        },
+        "fromUID": {
+          "type": "string",
+          "format": "int64",
+          "title": "来源 UID"
+        },
+        "fromCompanyID": {
+          "type": "string",
+          "format": "int64",
+          "title": "来源组织 ID"
+        },
+        "name": {
+          "type": "string",
+          "title": "来源用户名字"
+        },
+        "avatar": {
+          "type": "string",
+          "title": "来源用户头像"
+        },
+        "userDataID": {
+          "type": "string",
+          "title": "可选，业务相关的 ID，比如转换状态消息中带上的文件MD5"
+        },
+        "toUID": {
+          "type": "string",
+          "format": "int64",
+          "title": "目标用户 ID"
+        },
+        "status": {
+          "$ref": "#/definitions/MsgStatusEnumMsgStatus",
+          "title": "消息状态"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "int64",
+          "title": "创建时间"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "int64",
+          "title": "更新时间"
+        },
+        "msgDisplayType": {
+          "$ref": "#/definitions/MsgDisplayTypeEnumMsgDisplayType",
+          "title": "消息展示类型，1=消息卡片 2=文本 3=markdown文本"
+        },
+        "msgType": {
+          "$ref": "#/definitions/MsgTypeEnumMsgType",
+          "title": "消息类型，前端根据此消息类型去解析消息内容"
+        },
+        "msgContent": {
+          "type": "string",
+          "format": "byte",
+          "title": "消息内容，此内容 message center 这里不关心"
+        }
+      },
+      "title": "推送给前端的消息结构"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+        }
+      },
+      "additionalProperties": {},
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\nExample 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\nExample 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
