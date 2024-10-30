@@ -139,3 +139,109 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = IamInitEnumValidationError{}
+
+// Validate checks the field values on IamRegisterEnum with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *IamRegisterEnum) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on IamRegisterEnum with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// IamRegisterEnumMultiError, or nil if none found.
+func (m *IamRegisterEnum) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *IamRegisterEnum) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return IamRegisterEnumMultiError(errors)
+	}
+
+	return nil
+}
+
+// IamRegisterEnumMultiError is an error wrapping multiple validation errors
+// returned by IamRegisterEnum.ValidateAll() if the designated constraints
+// aren't met.
+type IamRegisterEnumMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m IamRegisterEnumMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m IamRegisterEnumMultiError) AllErrors() []error { return m }
+
+// IamRegisterEnumValidationError is the validation error returned by
+// IamRegisterEnum.Validate if the designated constraints aren't met.
+type IamRegisterEnumValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e IamRegisterEnumValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e IamRegisterEnumValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e IamRegisterEnumValidationError) Cause() error { return e.cause }
+
+func (e IamRegisterEnumValidationError) Code() int64 { return 10000000 }
+
+func (e IamRegisterEnumValidationError) HttpCode() int64 { return 400 }
+
+// Key function returns key value.
+func (e IamRegisterEnumValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e IamRegisterEnumValidationError) ErrorName() string { return "IamRegisterEnumValidationError" }
+
+// Error satisfies the builtin error interface
+func (e IamRegisterEnumValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sIamRegisterEnum.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = IamRegisterEnumValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Code() int64
+	HttpCode() int64
+	Cause() error
+	ErrorName() string
+} = IamRegisterEnumValidationError{}

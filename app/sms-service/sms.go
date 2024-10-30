@@ -36,6 +36,7 @@ func NewSMS(client smsservicev1.SMSServiceV1Client) *SMS {
 	}
 }
 
+// InjectSMSService 为 SMS 服务的注入入口
 func InjectSMSService(inj *injection.Injector) {
 	inj.InjectGRPCClient(smsservicev1.RegisterSMSServiceV1ClientGRPCProvider)
 	inj.Inject(NewSMS)

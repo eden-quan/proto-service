@@ -29,11 +29,6 @@ import (
 
 type Provider = func(creator interface{}) []interface{}
 
-// NewIAMUserGRPCProvider 用于为 Injection 提供 RPC 客户端的账注入入口
-func NewIAMUserGRPCProvider(creator interface{}) []interface{} {
-	return iamservicev1.RegisterIAMUserServiceClientGRPCProvider(creator)
-}
-
 type IAMUserService struct {
 	Client iamservicev1.IAMUserServiceClient
 }
@@ -46,7 +41,7 @@ func NewIAMUserService(client iamservicev1.IAMUserServiceClient) *IAMUserService
 
 // InjectIAMUserService 注入
 func InjectIAMUserService(inj *injection.Injector) {
-	inj.InjectGRPCClient(NewIAMUserGRPCProvider)
+	inj.InjectGRPCClient(iamservicev1.RegisterIAMUserServiceClientGRPCProvider)
 	inj.Inject(NewIAMUserService)
 }
 

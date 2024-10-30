@@ -66,6 +66,55 @@ func (IamInitEnum_IamInit) EnumDescriptor() ([]byte, []int) {
 	return file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_rawDescGZIP(), []int{0, 0}
 }
 
+type IamRegisterEnum_IamRegisterType int32
+
+const (
+	IamRegisterEnum_DESIGNER IamRegisterEnum_IamRegisterType = 0
+	IamRegisterEnum_SUPPLIER IamRegisterEnum_IamRegisterType = 1
+	IamRegisterEnum_PLATFORM IamRegisterEnum_IamRegisterType = 2
+)
+
+// Enum value maps for IamRegisterEnum_IamRegisterType.
+var (
+	IamRegisterEnum_IamRegisterType_name = map[int32]string{
+		0: "DESIGNER",
+		1: "SUPPLIER",
+		2: "PLATFORM",
+	}
+	IamRegisterEnum_IamRegisterType_value = map[string]int32{
+		"DESIGNER": 0,
+		"SUPPLIER": 1,
+		"PLATFORM": 2,
+	}
+)
+
+func (x IamRegisterEnum_IamRegisterType) Enum() *IamRegisterEnum_IamRegisterType {
+	p := new(IamRegisterEnum_IamRegisterType)
+	*p = x
+	return p
+}
+
+func (x IamRegisterEnum_IamRegisterType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (IamRegisterEnum_IamRegisterType) Descriptor() protoreflect.EnumDescriptor {
+	return file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_enumTypes[1].Descriptor()
+}
+
+func (IamRegisterEnum_IamRegisterType) Type() protoreflect.EnumType {
+	return &file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_enumTypes[1]
+}
+
+func (x IamRegisterEnum_IamRegisterType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use IamRegisterEnum_IamRegisterType.Descriptor instead.
+func (IamRegisterEnum_IamRegisterType) EnumDescriptor() ([]byte, []int) {
+	return file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_rawDescGZIP(), []int{1, 0}
+}
+
 // IamServiceInitEnum enum
 type IamInitEnum struct {
 	state         protoimpl.MessageState
@@ -105,6 +154,44 @@ func (*IamInitEnum) Descriptor() ([]byte, []int) {
 	return file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_rawDescGZIP(), []int{0}
 }
 
+type IamRegisterEnum struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *IamRegisterEnum) Reset() {
+	*x = IamRegisterEnum{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *IamRegisterEnum) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IamRegisterEnum) ProtoMessage() {}
+
+func (x *IamRegisterEnum) ProtoReflect() protoreflect.Message {
+	mi := &file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IamRegisterEnum.ProtoReflect.Descriptor instead.
+func (*IamRegisterEnum) Descriptor() ([]byte, []int) {
+	return file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_rawDescGZIP(), []int{1}
+}
+
 var File_api_iam_service_v1_enums_iam_iam_enum_v1_proto protoreflect.FileDescriptor
 
 var file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_rawDesc = []byte{
@@ -115,7 +202,12 @@ var file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_rawDesc = []byte{
 	0x65, 0x2e, 0x69, 0x61, 0x6d, 0x65, 0x6e, 0x75, 0x6d, 0x76, 0x31, 0x22, 0x29, 0x0a, 0x0b, 0x49,
 	0x61, 0x6d, 0x49, 0x6e, 0x69, 0x74, 0x45, 0x6e, 0x75, 0x6d, 0x22, 0x1a, 0x0a, 0x07, 0x49, 0x61,
 	0x6d, 0x49, 0x6e, 0x69, 0x74, 0x12, 0x0f, 0x0a, 0x0b, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49,
-	0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x42, 0x51, 0x5a, 0x4f, 0x67, 0x69, 0x74, 0x6c, 0x61, 0x62,
+	0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x22, 0x4e, 0x0a, 0x0f, 0x49, 0x61, 0x6d, 0x52, 0x65, 0x67,
+	0x69, 0x73, 0x74, 0x65, 0x72, 0x45, 0x6e, 0x75, 0x6d, 0x22, 0x3b, 0x0a, 0x0f, 0x49, 0x61, 0x6d,
+	0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0c, 0x0a, 0x08,
+	0x44, 0x45, 0x53, 0x49, 0x47, 0x4e, 0x45, 0x52, 0x10, 0x00, 0x12, 0x0c, 0x0a, 0x08, 0x53, 0x55,
+	0x50, 0x50, 0x4c, 0x49, 0x45, 0x52, 0x10, 0x01, 0x12, 0x0c, 0x0a, 0x08, 0x50, 0x4c, 0x41, 0x54,
+	0x46, 0x4f, 0x52, 0x4d, 0x10, 0x02, 0x42, 0x51, 0x5a, 0x4f, 0x67, 0x69, 0x74, 0x6c, 0x61, 0x62,
 	0x2e, 0x6c, 0x61, 0x69, 0x6e, 0x75, 0x6f, 0x6e, 0x69, 0x61, 0x6f, 0x2e, 0x63, 0x6e, 0x2f, 0x65,
 	0x64, 0x65, 0x6e, 0x2d, 0x71, 0x75, 0x61, 0x6e, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2d, 0x73,
 	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x61, 0x6d, 0x2d, 0x73,
@@ -136,11 +228,13 @@ func file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_rawDescGZIP() []byte {
 	return file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_rawDescData
 }
 
-var file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_goTypes = []interface{}{
-	(IamInitEnum_IamInit)(0), // 0: api.iam.service.iamenumv1.IamInitEnum.IamInit
-	(*IamInitEnum)(nil),      // 1: api.iam.service.iamenumv1.IamInitEnum
+	(IamInitEnum_IamInit)(0),             // 0: api.iam.service.iamenumv1.IamInitEnum.IamInit
+	(IamRegisterEnum_IamRegisterType)(0), // 1: api.iam.service.iamenumv1.IamRegisterEnum.IamRegisterType
+	(*IamInitEnum)(nil),                  // 2: api.iam.service.iamenumv1.IamInitEnum
+	(*IamRegisterEnum)(nil),              // 3: api.iam.service.iamenumv1.IamRegisterEnum
 }
 var file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -168,14 +262,26 @@ func file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_init() {
 				return nil
 			}
 		}
+		file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*IamRegisterEnum); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_iam_service_v1_enums_iam_iam_enum_v1_proto_rawDesc,
-			NumEnums:      1,
-			NumMessages:   1,
+			NumEnums:      2,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

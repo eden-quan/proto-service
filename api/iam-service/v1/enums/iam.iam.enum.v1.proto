@@ -12,3 +12,11 @@ message IamInitEnum {
     UNSPECIFIED = 0;
   }
 }
+
+message IamRegisterEnum {
+  enum IamRegisterType {
+    DESIGNER = 0;
+    SUPPLIER = 1;
+    PLATFORM = 2;
+  }
+}
